@@ -1,0 +1,77 @@
+.card {
+  background-color: var(--bg-card);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+}
+
+.icon {
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+}
+
+.card.primary .icon {
+  background-color: rgba(61, 139, 255, 0.2);
+}
+
+.card.success .icon {
+  background-color: rgba(0, 230, 118, 0.2);
+}
+
+.card.warning .icon {
+  background-color: rgba(255, 171, 0, 0.2);
+}
+
+.card.danger .icon {
+  background-color: rgba(255, 23, 68, 0.2);
+}
+
+.content {
+  flex: 1;
+}
+
+.title {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.value {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .icon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .value {
+    font-size: 24px;
+  }
+}
+

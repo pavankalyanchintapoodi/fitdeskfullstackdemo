@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+.DS_Store
+*.log
+
+server/gym_tracker.db
+server/gym_tracker.db-*
+server/*.db
+server/*.db.bak
+server/exports/*.csv
+
+client/dist/

@@ -1,0 +1,149 @@
+.nav {
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 20px;
+  min-width: fit-content;
+}
+
+.icon {
+  font-size: 28px;
+}
+
+.title {
+  color: var(--primary);
+}
+
+.links {
+  display: flex;
+  list-style: none;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.link {
+  display: block;
+  padding: 8px 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.link:hover {
+  color: var(--text-primary);
+}
+
+.link.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: fit-content;
+}
+
+.userName {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.logoutBtn {
+  padding: 6px 14px;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.logoutBtn:hover {
+  background-color: var(--border);
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-wrap: wrap;
+    padding: 0 16px;
+    height: auto;
+    min-height: 60px;
+    gap: 10px;
+  }
+
+  .logo {
+    gap: 8px;
+    font-size: 16px;
+  }
+
+  .icon {
+    font-size: 20px;
+  }
+
+  .link {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
+  .userSection {
+    gap: 10px;
+  }
+
+  .userName {
+    display: none;
+  }
+
+  .logoutBtn {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 560px) {
+  .container {
+    padding: 10px 12px;
+  }
+
+  .links {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    overflow-x: auto;
+  }
+
+  .link {
+    white-space: nowrap;
+    border-bottom-width: 2px;
+  }
+}

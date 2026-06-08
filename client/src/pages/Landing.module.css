@@ -1,0 +1,248 @@
+.page {
+  min-height: 100vh;
+  background: #080c10;
+  color: var(--text-primary);
+}
+
+.nav {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.brand {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navLinks a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.navLinks .navCta {
+  padding: 9px 14px;
+  border-radius: 6px;
+  color: white;
+  background: var(--primary);
+}
+
+.hero {
+  max-width: 1180px;
+  min-height: calc(100vh - 96px);
+  margin: 0 auto;
+  padding: 54px 20px 72px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.7fr);
+  align-items: center;
+  gap: 44px;
+}
+
+.heroText h1 {
+  margin: 0;
+  font-size: clamp(52px, 8vw, 96px);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 620px;
+  margin: 24px 0 0;
+  color: var(--text-secondary);
+  font-size: clamp(20px, 2.5vw, 30px);
+  line-height: 1.25;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.primaryBtn {
+  background: var(--success);
+  color: #04100a;
+}
+
+.secondaryBtn {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.heroPanel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.4);
+}
+
+.metricRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.metricRow + .metricRow,
+.followUp {
+  margin-top: 12px;
+}
+
+.metricRow span,
+.followUp span {
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.metricRow strong {
+  font-size: 28px;
+}
+
+.followUp {
+  padding: 16px;
+  border-radius: 6px;
+  background: rgba(61, 139, 255, 0.1);
+  border: 1px solid rgba(61, 139, 255, 0.35);
+}
+
+.followUp p {
+  margin: 8px 0 0;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.features {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px 64px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.feature {
+  padding: 18px;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.feature h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.feature p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.pitch {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px 72px;
+}
+
+.pitch h2 {
+  margin: 0 0 12px;
+  font-size: 32px;
+}
+
+.pitch p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.footer {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 20px 34px;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.footer div {
+  display: flex;
+  gap: 14px;
+}
+
+.footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+@media (max-width: 860px) {
+  .hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    padding-top: 34px;
+  }
+
+  .features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .nav,
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero {
+    gap: 28px;
+  }
+
+  .heroActions {
+    flex-direction: column;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+}

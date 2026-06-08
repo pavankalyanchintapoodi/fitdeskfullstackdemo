@@ -1,0 +1,287 @@
+.card {
+  background-color: var(--bg-card);
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.card.active {
+  border-top: 3px solid var(--success);
+}
+
+.card.expiring {
+  border-top: 3px solid var(--warning);
+  background: linear-gradient(to bottom, rgba(255, 171, 0, 0.05), transparent);
+}
+
+.card.expired {
+  border-top: 3px solid var(--danger);
+  background: linear-gradient(to bottom, rgba(255, 23, 68, 0.05), transparent);
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.header h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.plan {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge.active {
+  background-color: rgba(0, 230, 118, 0.2);
+  color: var(--success);
+}
+
+.badge.expiring {
+  background-color: rgba(255, 171, 0, 0.2);
+  color: var(--warning);
+}
+
+.badge.expired {
+  background-color: rgba(255, 23, 68, 0.2);
+  color: var(--danger);
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.value {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.daysLeft {
+  background-color: var(--bg-dark);
+  padding: 10px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.daysLabel {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.days {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--success);
+}
+
+.days.critical {
+  color: var(--danger);
+}
+
+.businessInfo {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.businessInfo > div {
+  min-width: 0;
+  padding: 9px;
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.businessInfo span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.businessInfo strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.businessInfo .due strong {
+  color: var(--warning);
+}
+
+.businessInfo .clear strong {
+  color: var(--success);
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  min-height: auto;
+  width: 100%;
+}
+
+.editBtn, .deleteBtn {
+  flex: 1 1 auto;
+  min-width: 60px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.resendBtn, .whatsappBtn, .paymentBtn {
+  flex: 1 1 auto;
+  min-width: 60px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  background-color: var(--muted);
+  color: var(--text-primary);
+}
+
+.resendBtn:hover {
+  background-color: #e6e6e6;
+}
+
+.whatsappBtn {
+  background-color: #25d366;
+  color: #07130b;
+  font-weight: 700;
+}
+
+.whatsappBtn:hover {
+  background-color: #1ebe5d;
+}
+
+.paymentBtn {
+  background-color: var(--warning);
+  color: #130d00;
+  font-weight: 700;
+}
+
+.paymentBtn:hover {
+  background-color: #e69a00;
+}
+
+.renewBtn {
+  flex: 1 1 auto;
+  min-width: 60px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  background-color: var(--success);
+  color: #000;
+  font-weight: 600;
+}
+
+.renewBtn:hover {
+  background-color: #00cc5c;
+}
+
+.editBtn {
+  background-color: var(--primary);
+  color: white;
+}
+
+.editBtn:hover {
+  background-color: #2d6fcc;
+}
+
+.deleteBtn {
+  background-color: var(--danger);
+  color: white;
+}
+
+.deleteBtn:hover {
+  background-color: #f01040;
+}
+
+@media (max-width: 768px) {
+  .details {
+    grid-template-columns: 1fr;
+  }
+
+  .businessInfo {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .editBtn, .deleteBtn, .resendBtn, .renewBtn, .whatsappBtn, .paymentBtn {
+    padding: 6px 8px;
+    font-size: 12px;
+    flex: 1 1 auto;
+    min-width: 55px;
+  }
+}
