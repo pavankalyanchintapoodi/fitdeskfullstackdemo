@@ -2,21 +2,34 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import sgMail from '@sendgrid/mail';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+// Prefer SendGrid (API) when SENDGRID_API_KEY is provided (Render blocks SMTP).
+const useSendGrid = !!process.env.SENDGRID_API_KEY;
+if (useSendGrid) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  console.log('Using SendGrid for transactional emails');
+}
+
+// Fallback to Nodemailer (Gmail app password) when SendGrid key is not provided.
+let transporter;
+if (!useSendGrid) {
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+  console.log('Using Nodemailer (SMTP) for transactional emails');
+}
 
 export async function sendWelcomeEmail(clientEmail, clientName, planType, ownerName) {
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_USER || process.env.SENDGRID_FROM || `no-reply@${process.env.SENDGRID_DOMAIN || 'example.com'}`,
     to: clientEmail,
     subject: `🎉 Welcome to the Gym!`,
     html: `
@@ -37,7 +50,16 @@ export async function sendWelcomeEmail(clientEmail, clientName, planType, ownerN
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    if (useSendGrid) {
+      await sgMail.send({
+        to: clientEmail,
+        from: mailOptions.from,
+        subject: mailOptions.subject,
+        html: mailOptions.html,
+      });
+    } else {
+      await transporter.sendMail(mailOptions);
+    }
     console.log(`✅ Welcome email sent to: ${clientEmail}`);
     return true;
   } catch (error) {
@@ -54,7 +76,7 @@ function formatDate(dateStr) {
 
 export async function sendExpirationEmail(clientEmail, clientName, daysLeft, ownerEmail, ownerName, subscriptionStart, subscriptionEnd) {
   const clientMailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_USER || process.env.SENDGRID_FROM || `no-reply@${process.env.SENDGRID_DOMAIN || 'example.com'}`,
     to: clientEmail,
     subject: `⏰ Your Gym Membership Expires Tomorrow!`,
     html: `
@@ -68,7 +90,7 @@ export async function sendExpirationEmail(clientEmail, clientName, daysLeft, own
   };
 
   const ownerMailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_USER || process.env.SENDGRID_FROM || `no-reply@${process.env.SENDGRID_DOMAIN || 'example.com'}`,
     to: ownerEmail,
     subject: `📢 Member Alert: ${clientName}'s Membership Expires Tomorrow`,
     html: `
@@ -82,11 +104,17 @@ export async function sendExpirationEmail(clientEmail, clientName, daysLeft, own
   };
 
   try {
-    await transporter.sendMail(clientMailOptions);
-    console.log(`Email sent to client: ${clientEmail}`);
-
-    await transporter.sendMail(ownerMailOptions);
-    console.log(`Alert email sent to owner: ${ownerEmail}`);
+    if (useSendGrid) {
+      await sgMail.send({ to: clientMailOptions.to, from: clientMailOptions.from, subject: clientMailOptions.subject, html: clientMailOptions.html });
+      console.log(`Email sent to client: ${clientEmail}`);
+      await sgMail.send({ to: ownerMailOptions.to, from: ownerMailOptions.from, subject: ownerMailOptions.subject, html: ownerMailOptions.html });
+      console.log(`Alert email sent to owner: ${ownerEmail}`);
+    } else {
+      await transporter.sendMail(clientMailOptions);
+      console.log(`Email sent to client: ${clientEmail}`);
+      await transporter.sendMail(ownerMailOptions);
+      console.log(`Alert email sent to owner: ${ownerEmail}`);
+    }
 
     return true;
   } catch (error) {
@@ -97,7 +125,7 @@ export async function sendExpirationEmail(clientEmail, clientName, daysLeft, own
 
 export async function sendUpdateEmail(client, ownerEmail, ownerName) {
   const clientMailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_USER || process.env.SENDGRID_FROM || `no-reply@${process.env.SENDGRID_DOMAIN || 'example.com'}`,
     to: client.email,
     subject: `Your Gym Membership Details Have Been Updated`,
     html: `
@@ -115,7 +143,7 @@ export async function sendUpdateEmail(client, ownerEmail, ownerName) {
   };
 
   const ownerMailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_USER || process.env.SENDGRID_FROM || `no-reply@${process.env.SENDGRID_DOMAIN || 'example.com'}`,
     to: ownerEmail,
     subject: `Member Details Updated - ${client.name}`,
     html: `
@@ -134,11 +162,17 @@ export async function sendUpdateEmail(client, ownerEmail, ownerName) {
   };
 
   try {
-    await transporter.sendMail(clientMailOptions);
-    console.log(`✅ Update email sent to client: ${client.email}`);
-
-    await transporter.sendMail(ownerMailOptions);
-    console.log(`✅ Update alert email sent to owner: ${ownerEmail}`);
+    if (useSendGrid) {
+      await sgMail.send({ to: clientMailOptions.to, from: clientMailOptions.from, subject: clientMailOptions.subject, html: clientMailOptions.html });
+      console.log(`✅ Update email sent to client: ${client.email}`);
+      await sgMail.send({ to: ownerMailOptions.to, from: ownerMailOptions.from, subject: ownerMailOptions.subject, html: ownerMailOptions.html });
+      console.log(`✅ Update alert email sent to owner: ${ownerEmail}`);
+    } else {
+      await transporter.sendMail(clientMailOptions);
+      console.log(`✅ Update email sent to client: ${client.email}`);
+      await transporter.sendMail(ownerMailOptions);
+      console.log(`✅ Update alert email sent to owner: ${ownerEmail}`);
+    }
 
     return true;
   } catch (error) {
@@ -153,7 +187,7 @@ export async function sendRenewalEmail(client, newEndDate, ownerEmail, ownerName
   const newEndDateFormatted = formatDate(newEndDate);
 
   const clientMailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_USER || process.env.SENDGRID_FROM || `no-reply@${process.env.SENDGRID_DOMAIN || 'example.com'}`,
     to: client.email,
     subject: `Your Gym Membership Has Been Renewed Successfully`,
     html: `
@@ -171,7 +205,7 @@ export async function sendRenewalEmail(client, newEndDate, ownerEmail, ownerName
   };
 
   const ownerMailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_USER || process.env.SENDGRID_FROM || `no-reply@${process.env.SENDGRID_DOMAIN || 'example.com'}`,
     to: ownerEmail,
     subject: `Membership Renewed - ${client.name}`,
     html: `
@@ -189,11 +223,17 @@ export async function sendRenewalEmail(client, newEndDate, ownerEmail, ownerName
   };
 
   try {
-    await transporter.sendMail(clientMailOptions);
-    console.log(`✅ Renewal email sent to client: ${client.email}`);
-
-    await transporter.sendMail(ownerMailOptions);
-    console.log(`✅ Renewal alert email sent to owner: ${ownerEmail}`);
+    if (useSendGrid) {
+      await sgMail.send({ to: clientMailOptions.to, from: clientMailOptions.from, subject: clientMailOptions.subject, html: clientMailOptions.html });
+      console.log(`✅ Renewal email sent to client: ${client.email}`);
+      await sgMail.send({ to: ownerMailOptions.to, from: ownerMailOptions.from, subject: ownerMailOptions.subject, html: ownerMailOptions.html });
+      console.log(`✅ Renewal alert email sent to owner: ${ownerEmail}`);
+    } else {
+      await transporter.sendMail(clientMailOptions);
+      console.log(`✅ Renewal email sent to client: ${client.email}`);
+      await transporter.sendMail(ownerMailOptions);
+      console.log(`✅ Renewal alert email sent to owner: ${ownerEmail}`);
+    }
 
     return true;
   } catch (error) {
