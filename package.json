@@ -8,7 +8,8 @@
     "server": "cd server && npm run dev",
     "client": "cd client && npm run dev",
     "install-all": "npm install && cd server && npm install && cd ../client && npm install",
-    "seed": "cd server && npm run seed"
+    "seed": "cd server && npm run seed",
+    "start": "node server/server.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
